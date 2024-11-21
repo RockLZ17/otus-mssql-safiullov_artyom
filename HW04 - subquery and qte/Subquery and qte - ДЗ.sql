@@ -68,7 +68,7 @@ where
 select distinct
 	il.StockItemID
 	,il.[Description]
-	,(select min(UnitPrice) from Sales.InvoiceLines as il1 where il.StockItemID = il1.StockItemID) as Min_price
+	,(select min(UnitPrice) from Sales.InvoiceLines as il1) as Min_price
 from Sales.InvoiceLines as il
 
 /* CTE */
@@ -76,19 +76,15 @@ from Sales.InvoiceLines as il
 ;with q as 
 	(
     select 
-        StockItemID,
         min(UnitPrice) as Min_price
     from Sales.InvoiceLines
-    group by
-        StockItemID
 	)
 select distinct
     il.StockItemID,
     il.[Description],
-    q.Min_price
+    (select * from q)
 from 
     Sales.InvoiceLines il
-join q on il.StockItemID = q.StockItemID
 
 /*
 3. Выберите информацию по клиентам, которые перевели компании пять максимальных платежей 
@@ -135,7 +131,7 @@ left join [Application].Cities as city on c.DeliveryCityID = city.CityID
 left join [Application].People as p on i.PackedByPersonID = p.personid
 where 
 	i.InvoiceID in (select top 3 InvoiceID from Sales.InvoiceLines order by UnitPrice desc)
-	
+
 /* CTE */
 
 ;with q as
