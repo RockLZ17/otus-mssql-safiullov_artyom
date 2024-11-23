@@ -168,7 +168,7 @@ with top_two_items as (
     si.stockitemid,
     si.unitprice,
     o.orderdate,
-    row_number() over (partition by c.customerid order by si.unitprice desc) as row_num
+    dense_rank() over (partition by c.customerid order by si.unitprice desc) as row_num
   from 
     sales.orders o
     join sales.orderlines ol on o.orderid = ol.orderid
@@ -185,4 +185,3 @@ from
   top_two_items
 where 
   row_num <= 2
-
