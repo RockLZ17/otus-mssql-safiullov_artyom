@@ -48,8 +48,7 @@ declare @pivot_list nvarchar(max) = ''
 select 
 	@pivot_list += '[' + CustomerName + '],'
 from Sales.Customers
-where 
-	CustomerName like 'Tailspin Toys%' 
+
 
 -- Удаляем последнюю запятую --
 set @pivot_list = left(@pivot_list, len(@pivot_list) - 1)
@@ -61,14 +60,12 @@ set @sql = '
         ,' + @pivot_list + '
     from
     (
-        select
+        select top 1000
             format(datefromparts(year(o.OrderDate), month(o.OrderDate), 1), ''d'') as Order_date
             ,c.CustomerName as Customer_name
             ,count(1) as Purchases_cnt
         from Sales.Orders as o
         join Sales.Customers as c on o.CustomerID = c.CustomerID
-        where
-           c.CustomerName LIKE ''Tailspin Toys%''
         group by
             format(datefromparts(year(o.OrderDate), month(o.OrderDate), 1), ''d'')
             ,c.CustomerName
