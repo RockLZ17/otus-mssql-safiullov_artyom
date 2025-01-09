@@ -1,0 +1,48 @@
+Table Drivers {
+  Driver_id integer [primary key]
+  Driver_name nvarchar(255)
+  Driver_country nvarchar(255)
+  Driver_birth date
+
+}
+
+Table Constructors {
+  Constructor_id integer [primary key]
+  Constructor_name nvarchar(255)
+  Constructor_engine nvarchar(255)
+  Constructor_country nvarchar(255)
+}
+
+Table Circuits {
+  Circuit_id integer [primary key]
+  Circuit_name nvarchar(255)
+  Circuit_country nvarchar(255)
+}
+
+Table Grands_Prix {
+  Grands_Prix_id integer [primary key]
+  Circuit_id integer
+  Season tinyint
+  First_place_driver_id integer 
+  Second_place_driver_id integer 
+  Third_place_driver_id integer 
+  First_place_constructor_id integer 
+  Second_place_constructor_id integer 
+  Third_place_constructor_id integer 
+  Driver_polesitter_id integer 
+  Constructor_polesitter_id integer 
+  Driver_fastest_lap_id integer 
+  Constructor_fastest_lap_id integer 
+}
+
+Ref: Grands_Prix.Circuit_id  > Circuits.Circuit_id 
+Ref: Grands_Prix.First_place_driver_id  > Drivers.Driver_id
+Ref: Grands_Prix.Second_place_driver_id  > Drivers.Driver_id
+Ref: Grands_Prix.Third_place_driver_id  > Drivers.Driver_id
+Ref: Grands_Prix.First_place_constructor_id  > Constructors.Constructor_id
+Ref: Grands_Prix.Second_place_constructor_id  > Constructors.Constructor_id
+Ref: Grands_Prix.Third_place_constructor_id  > Constructors.Constructor_id
+Ref: Grands_Prix. Driver_polesitter_id  > Drivers.Driver_id
+Ref: Grands_Prix.Constructor_polesitter_id  > Constructors.Constructor_id
+Ref: Grands_Prix.Driver_fastest_lap_id  > Drivers.Driver_id
+Ref: Grands_Prix.Constructor_fastest_lap_id  > Constructors.Constructor_id
